@@ -1,6 +1,6 @@
 ﻿namespace DAL.Model;
 
-internal class ProviderTwoSearchResponse
+public class ProviderTwoSearchResponse
 {
 	// Mandatory
 	// Array of routes

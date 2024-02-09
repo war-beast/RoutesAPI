@@ -1,6 +1,6 @@
 ﻿namespace DAL.Model;
 
-internal class ProviderTwoSearchRequest
+public class ProviderTwoSearchRequest
 {
 	// Mandatory
 	// Start point of route, e.g. Moscow 
