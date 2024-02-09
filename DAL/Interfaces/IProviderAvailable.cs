@@ -2,5 +2,5 @@
 
 public interface IProviderAvailable
 {
-	Task<bool> IsAvailableAsync();
+	Task<bool> IsAvailableAsync(CancellationToken cancellationToken);
 }

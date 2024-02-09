@@ -18,15 +18,15 @@ public class ProviderOneService : IProviderOneService
 		_connection = options.Value;
 	}
 
-	public async Task<ProviderOneSearchResponse> GetRoutesAsync(ProviderOneSearchRequest request)
+	public async Task<ProviderOneSearchResponse> GetRoutesAsync(ProviderOneSearchRequest request, CancellationToken cancellationToken)
 	{
 		var client = _httpClientFactory.CreateClient();
 
-		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.SearchEndpoint}");
+		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.SearchEndpoint}", cancellationToken);
 
 		if (requestResult.IsSuccessStatusCode)
 		{
-			var response = await requestResult.Content.ReadAsStringAsync();
+			var response = await requestResult.Content.ReadAsStringAsync(cancellationToken);
 
 			return JsonSerializer.Deserialize<ProviderOneSearchResponse>(response) ?? throw new InvalidOperationException($"Ошибка при десериализации ответа провайдера: {response}");
 		}
@@ -34,11 +34,11 @@ public class ProviderOneService : IProviderOneService
 		throw new InvalidOperationException($"Ошибка при получении ответа провайдера: {requestResult.Content}");
 	}
 
-	public async Task<bool> IsAvailableAsync()
+	public async Task<bool> IsAvailableAsync(CancellationToken cancellationToken)
 	{
 		var client = _httpClientFactory.CreateClient();
 
-		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.PingEndpoint}");
+		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.PingEndpoint}", cancellationToken);
 
 		return requestResult.IsSuccessStatusCode
 			? true
