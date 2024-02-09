@@ -2,7 +2,7 @@
 
 namespace BLL.Interfaces;
 
-public interface IProviderAdapter
+public interface IDataConsumer
 {
 	Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken);
 
