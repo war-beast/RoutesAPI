@@ -6,23 +6,25 @@ using System.Text.Json;
 
 namespace DAL.Services;
 
-public class ProviderTwoService : IProviderTwoService
+public class ProviderTwoService : ProviderServicesBase, IProviderTwoService
 {
 	private readonly IHttpClientFactory _httpClientFactory;
-	private readonly ProviderTwoConnection _connection;
 
 	public ProviderTwoService(IHttpClientFactory httpClientFactory,
 		IOptions<ProviderTwoConnection> options)
 	{
 		_httpClientFactory = httpClientFactory;
-		_connection = options.Value;
+		var connection = options.Value;
+
+		DataUrl = $"{connection.BaseUrl}/{connection.SearchEndpoint}";
+		PingUrl = $"{connection.BaseUrl}/{connection.PingEndpoint}";
 	}
 
 	public async Task<ProviderTwoSearchResponse> GetRoutesAsync(ProviderTwoSearchRequest request, CancellationToken cancellationToken)
 	{
 		var client = _httpClientFactory.CreateClient();
 
-		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.SearchEndpoint}", cancellationToken);
+		var requestResult = await client.GetAsync(DataUrl, cancellationToken);
 
 		if (requestResult.IsSuccessStatusCode)
 		{
@@ -38,7 +40,7 @@ public class ProviderTwoService : IProviderTwoService
 	{
 		var client = _httpClientFactory.CreateClient();
 
-		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.PingEndpoint}", cancellationToken);
+		var requestResult = await client.GetAsync(PingUrl, cancellationToken);
 
 		return requestResult.IsSuccessStatusCode
 			? true
