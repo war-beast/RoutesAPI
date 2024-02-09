@@ -1,17 +1,47 @@
 ﻿using DAL.Interfaces;
 using DAL.Model;
+using DAL.Model.Options;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace DAL.Services;
 
 public class ProviderTwoService : IProviderTwoService
 {
-	public Task<ProviderTwoSearchResponse> GetRoutes(ProviderTwoSearchRequest request)
+	private readonly IHttpClientFactory _httpClientFactory;
+	private readonly ProviderTwoConnection _connection;
+
+	public ProviderTwoService(IHttpClientFactory httpClientFactory,
+		IOptions<ProviderTwoConnection> options)
 	{
-		throw new NotImplementedException();
+		_httpClientFactory = httpClientFactory;
+		_connection = options.Value;
 	}
 
-	public Task<bool> IsAvailable()
+	public async Task<ProviderTwoSearchResponse> GetRoutes(ProviderTwoSearchRequest request)
 	{
-		throw new NotImplementedException();
+		var client = _httpClientFactory.CreateClient();
+
+		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.SearchEndpoint}");
+
+		if (requestResult.IsSuccessStatusCode)
+		{
+			var response = await requestResult.Content.ReadAsStringAsync();
+
+			return JsonSerializer.Deserialize<ProviderTwoSearchResponse>(response) ?? throw new InvalidOperationException($"Ошибка при десериализации ответа провайдера {response}");
+		}
+
+		throw new InvalidOperationException($"Ошибка при получении ответа провайдера {requestResult.Content}");
+	}
+
+	public async Task<bool> IsAvailable()
+	{
+		var client = _httpClientFactory.CreateClient();
+
+		var requestResult = await client.GetAsync($"{_connection.BaseUrl}/{_connection.PingEndpoint}");
+
+		return requestResult.IsSuccessStatusCode
+			? true
+			: false;
 	}
 }

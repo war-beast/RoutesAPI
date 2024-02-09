@@ -10,9 +10,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
-builder.Services.InitCustomServices();
+builder.Services.InitCustomServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseExceptionHandler(new ExceptionHandlerOptions
+{
+	ExceptionHandler = new ExceptionMiddleware(app.Services.GetRequiredService<IHostEnvironment>(), app.Services.GetRequiredService<ILogger>()).Invoke
+});
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
