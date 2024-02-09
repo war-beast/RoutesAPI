@@ -18,7 +18,7 @@ public class ProviderTwoService : IProviderTwoService
 		_connection = options.Value;
 	}
 
-	public async Task<ProviderTwoSearchResponse> GetRoutes(ProviderTwoSearchRequest request)
+	public async Task<ProviderTwoSearchResponse> GetRoutesAsync(ProviderTwoSearchRequest request)
 	{
 		var client = _httpClientFactory.CreateClient();
 
@@ -34,7 +34,7 @@ public class ProviderTwoService : IProviderTwoService
 		throw new InvalidOperationException($"Ошибка при получении ответа провайдера {requestResult.Content}");
 	}
 
-	public async Task<bool> IsAvailable()
+	public async Task<bool> IsAvailableAsync()
 	{
 		var client = _httpClientFactory.CreateClient();
 

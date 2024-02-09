@@ -18,7 +18,7 @@ public class ProviderOneService : IProviderOneService
 		_connection = options.Value;
 	}
 
-	public async Task<ProviderOneSearchResponse> GetRoutes(ProviderOneSearchRequest request)
+	public async Task<ProviderOneSearchResponse> GetRoutesAsync(ProviderOneSearchRequest request)
 	{
 		var client = _httpClientFactory.CreateClient();
 
@@ -34,7 +34,7 @@ public class ProviderOneService : IProviderOneService
 		throw new InvalidOperationException($"Ошибка при получении ответа провайдера: {requestResult.Content}");
 	}
 
-	public async Task<bool> IsAvailable()
+	public async Task<bool> IsAvailableAsync()
 	{
 		var client = _httpClientFactory.CreateClient();
 

@@ -4,5 +4,5 @@ namespace DAL.Interfaces;
 
 public interface IProviderTwoService : IProviderAvailable
 {
-	Task<ProviderTwoSearchResponse> GetRoutes(ProviderTwoSearchRequest request);
+	Task<ProviderTwoSearchResponse> GetRoutesAsync(ProviderTwoSearchRequest request);
 }

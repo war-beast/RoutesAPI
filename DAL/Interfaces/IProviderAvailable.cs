@@ -2,5 +2,5 @@
 
 public interface IProviderAvailable
 {
-	Task<bool> IsAvailable();
+	Task<bool> IsAvailableAsync();
 }
