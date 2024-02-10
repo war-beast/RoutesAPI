@@ -1,3 +1,6 @@
+using BLL.Mappings;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using RoutesAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+builder.Services.AddAutoMapper(typeof(CacheKeyMapping).Assembly);
+
+builder.Services.AddHealthChecks();
 
 builder.Services.InitCustomServices(builder.Configuration);
 
@@ -29,7 +35,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.MapHealthChecks("/api/v1/ping", new HealthCheckOptions
+{
+	ResultStatusCodes =
+	{
+		[HealthStatus.Healthy] = StatusCodes.Status200OK,
+		[HealthStatus.Unhealthy] = StatusCodes.Status500InternalServerError
+	}
+});
 
 app.MapControllers();
 

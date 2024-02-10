@@ -3,22 +3,32 @@
 public class ProviderOneSearchRequest
 {
 	// Mandatory
-	// Start point of route, e.g. Moscow 
+	/// <summary>
+	/// Start point of route, e.g. Moscow 
+	/// </summary>
 	public string From { get; set; }
 
 	// Mandatory
-	// End point of route, e.g. Sochi
+	/// <summary>
+	/// End point of route, e.g. Sochi
+	/// </summary>
 	public string To { get; set; }
 
 	// Mandatory
-	// Start date of route
+	/// <summary>
+	/// Start date of route
+	/// </summary>
 	public DateTime DateFrom { get; set; }
 
 	// Optional
-	// End date of route
+	/// <summary>
+	/// End date of route
+	/// </summary>
 	public DateTime? DateTo { get; set; }
 
 	// Optional
-	// Maximum price of route
+	/// <summary>
+	/// Maximum price of route
+	/// </summary>
 	public decimal? MaxPrice { get; set; }
 }

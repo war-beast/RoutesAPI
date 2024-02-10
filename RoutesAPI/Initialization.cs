@@ -1,4 +1,7 @@
-﻿using DAL.Interfaces;
+﻿using BLL.Interfaces;
+using BLL.Model;
+using BLL.Services;
+using DAL.Interfaces;
 using DAL.Model.Options;
 using DAL.Services;
 
@@ -17,7 +20,7 @@ public static class Initialization
 
 		#region Bussiness logic layer
 
-
+		services.AddTransient<ICacheDataService<MemoryCacheKey>, MemoryCacheService>();
 
 		#endregion
 

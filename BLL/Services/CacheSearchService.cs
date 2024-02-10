@@ -1,20 +1,24 @@
-﻿using BLL.Interfaces;
+﻿using AutoMapper;
+using BLL.Interfaces;
 using BLL.Model;
 
 namespace BLL.Services;
 
 public class CacheSearchService : IDataConsumer
 {
-	private readonly ICacheDataService _cacheService;
+	private readonly ICacheDataService<MemoryCacheKey> _cacheService;
+	private readonly IMapper _mapper;
 
-	public CacheSearchService(ICacheDataService cacheService)
+	public CacheSearchService(ICacheDataService<MemoryCacheKey> cacheService, 
+		IMapper mapper)
 	{
 		_cacheService = cacheService;
+		_mapper = mapper;
 	}
 
-	public Task<SearchResponse?> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
+	public Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
-		string key = ; //Сформировать ключ
+		var key = _mapper.Map<MemoryCacheKey>(request); //Сформировать ключ
 
 		return _cacheService.ReadAsync(key, cancellationToken);
 	}

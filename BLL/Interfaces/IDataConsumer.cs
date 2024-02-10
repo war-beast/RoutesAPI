@@ -4,7 +4,7 @@ namespace BLL.Interfaces;
 
 public interface IDataConsumer
 {
-	Task<SearchResponse?> GetDataAsync(SearchRequest request, CancellationToken cancellationToken);
+	Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken);
 
 	Task<bool> IsAvailableAsync(CancellationToken cancellationToken);
 }

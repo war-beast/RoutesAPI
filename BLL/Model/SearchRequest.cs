@@ -3,15 +3,21 @@
 public class SearchRequest
 {
 	// Mandatory
-	// Start point of route, e.g. Moscow 
+	/// <summary>
+	/// Start point of route, e.g. Moscow 
+	/// </summary>
 	public string Origin { get; set; }
 
 	// Mandatory
-	// End point of route, e.g. Sochi
+	/// <summary>
+	/// End point of route, e.g. Sochi
+	/// </summary>
 	public string Destination { get; set; }
 
 	// Mandatory
-	// Start date of route
+	/// <summary>
+	/// Start date of route
+	/// </summary>
 	public DateTime OriginDateTime { get; set; }
 
 	// Optional

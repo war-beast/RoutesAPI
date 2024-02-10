@@ -19,9 +19,9 @@ public class MemoryCacheService : ICacheDataService<MemoryCacheKey>
 	{
 		var readSuccess = _cache.TryGetValue(key, out SearchResponse? item);
 
-		return readSuccess 
-			? Task.FromResult<SearchResponse>(item) 
-			: Task.FromResult<SearchResponse>(new SearchResponse{ Routes = [] });
+		return readSuccess && item != null 
+			? Task.FromResult(item) 
+			: Task.FromResult(new SearchResponse{ Routes = [] });
 	}
 
 	public Task WriteAsync(MemoryCacheKey key, SearchResponse item, CancellationToken cancellationToken)

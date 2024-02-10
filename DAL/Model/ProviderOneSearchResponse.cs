@@ -3,6 +3,8 @@
 public class ProviderOneSearchResponse
 {
 	// Mandatory
-	// Array of routes
+	/// <summary>
+	/// Array of routes
+	/// </summary>
 	public ProviderOneRoute[] Routes { get; set; }
 }

@@ -3,31 +3,45 @@
 	public class Route
 	{
 		// Mandatory
-		// Identifier of the whole route
+		/// <summary>
+		/// Identifier of the whole route
+		/// </summary>
 		public Guid Id { get; set; }
 
 		// Mandatory
-		// Start point of route
+		/// <summary>
+		/// Start point of route
+		/// </summary>
 		public string Origin { get; set; }
 
 		// Mandatory
-		// End point of route
+		/// <summary>
+		/// End point of route
+		/// </summary>
 		public string Destination { get; set; }
 
 		// Mandatory
-		// Start date of route
+		/// <summary>
+		/// Start date of route
+		/// </summary>
 		public DateTime OriginDateTime { get; set; }
 
 		// Mandatory
-		// End date of route
+		/// <summary>
+		/// End date of route
+		/// </summary>
 		public DateTime DestinationDateTime { get; set; }
 
 		// Mandatory
-		// Price of route
+		/// <summary>
+		/// Price of route
+		/// </summary>
 		public decimal Price { get; set; }
 
 		// Mandatory
-		// Timelimit. After it expires, route became not actual
+		/// <summary>
+		/// Timelimit. After it expires, route became not actual
+		/// </summary>
 		public DateTime TimeLimit { get; set; }
 	}
 }

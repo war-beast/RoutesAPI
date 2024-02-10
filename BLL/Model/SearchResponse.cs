@@ -3,22 +3,32 @@
 public class SearchResponse
 {
 	// Mandatory
-	// Array of routes
+	/// <summary>
+	/// Array of routes
+	/// </summary>
 	public Route[] Routes { get; set; }
 
 	// Mandatory
-	// The cheapest route
+	/// <summary>
+	/// The cheapest route
+	/// </summary>
 	public decimal MinPrice { get; set; }
 
 	// Mandatory
-	// Most expensive route
+	/// <summary>
+	/// Most expensive route
+	/// </summary>
 	public decimal MaxPrice { get; set; }
 
 	// Mandatory
-	// The fastest route
+	/// <summary>
+	/// The fastest route
+	/// </summary>
 	public int MinMinutesRoute { get; set; }
 
 	// Mandatory
-	// The longest route
+	/// <summary>
+	/// The longest route
+	/// </summary>
 	public int MaxMinutesRoute { get; set; }
 }

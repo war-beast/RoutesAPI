@@ -3,27 +3,39 @@
 	public class ProviderOneRoute
 	{
 		// Mandatory
-		// Start point of route
+		/// <summary>
+		/// Start point of route
+		/// </summary>
 		public string From { get; set; }
 
 		// Mandatory
-		// End point of route
+		/// <summary>
+		/// End point of route
+		/// </summary>
 		public string To { get; set; }
 
 		// Mandatory
-		// Start date of route
+		/// <summary>
+		/// Start date of route
+		/// </summary>
 		public DateTime DateFrom { get; set; }
 
 		// Mandatory
-		// End date of route
+		/// <summary>
+		/// End date of route
+		/// </summary>
 		public DateTime DateTo { get; set; }
 
 		// Mandatory
-		// Price of route
+		/// <summary>
+		/// Price of route
+		/// </summary>
 		public decimal Price { get; set; }
 
 		// Mandatory
-		// Timelimit. After it expires, route became not actual
+		/// <summary>
+		/// Timelimit. After it expires, route became not actual
+		/// </summary>
 		public DateTime TimeLimit { get; set; }
 	}
 }
