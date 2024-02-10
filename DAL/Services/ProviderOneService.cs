@@ -2,6 +2,7 @@
 using DAL.Model;
 using DAL.Model.Options;
 using Microsoft.Extensions.Options;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace DAL.Services;
@@ -24,7 +25,7 @@ public class ProviderOneService : ProviderServicesBase, IProviderOneService
 	{
 		var client = _httpClientFactory.CreateClient();
 
-		var requestResult = await client.GetAsync(DataUrl, cancellationToken);
+		var requestResult = await client.PostAsJsonAsync(DataUrl, request, cancellationToken);
 
 		if (requestResult.IsSuccessStatusCode)
 		{

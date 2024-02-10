@@ -12,7 +12,7 @@ public class CacheSearchService : IDataConsumer
 		_cacheService = cacheService;
 	}
 
-	public Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
+	public Task<SearchResponse?> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
 		string key = ; //Сформировать ключ
 

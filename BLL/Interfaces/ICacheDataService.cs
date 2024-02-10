@@ -2,9 +2,9 @@
 
 namespace BLL.Interfaces;
 
-public interface ICacheDataService
+public interface ICacheDataService<in T>
 {
-	Task<SearchResponse> ReadAsync(string key, CancellationToken cancellationToken);
+	Task<SearchResponse> ReadAsync(T key, CancellationToken cancellationToken);
 
-	Task WriteAsync(string key, SearchResponse item, CancellationToken cancellationToken);
+	Task WriteAsync(T key, SearchResponse item, CancellationToken cancellationToken);
 }

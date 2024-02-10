@@ -14,12 +14,12 @@ public class ProviderOneSearchService : IDataConsumer
 		_providerService = providerService;
 	}
 
-	public async Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
+	public async Task<SearchResponse?> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
 		ProviderOneSearchRequest providerSearchRequest = ; //Надо смаппить из request
 
 		var requestResult = await _providerService.GetRoutesAsync(providerSearchRequest, cancellationToken);
-		SearchResponse result = ; //Надо смаппить из requestResult.Routes[]
+		SearchResponse? result = ; //Надо смаппить из requestResult.Routes[]
 
 		return result;
 	}

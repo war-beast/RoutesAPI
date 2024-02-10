@@ -1,4 +1,5 @@
-﻿using DAL.Interfaces;
+﻿using System.Net.Http.Json;
+using DAL.Interfaces;
 using DAL.Model;
 using DAL.Model.Options;
 using Microsoft.Extensions.Options;
@@ -24,11 +25,11 @@ public class ProviderTwoService : ProviderServicesBase, IProviderTwoService
 	{
 		var client = _httpClientFactory.CreateClient();
 
-		var requestResult = await client.GetAsync(DataUrl, cancellationToken);
+		var requestResult = await client.PostAsJsonAsync(DataUrl, request, cancellationToken);
 
 		if (requestResult.IsSuccessStatusCode)
 		{
-			var response = await requestResult.Content.ReadAsStringAsync();
+			var response = await requestResult.Content.ReadAsStringAsync(cancellationToken);
 
 			return JsonSerializer.Deserialize<ProviderTwoSearchResponse>(response) ?? throw new InvalidOperationException($"Ошибка при десериализации ответа провайдера {response}");
 		}
