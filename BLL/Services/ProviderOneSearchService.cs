@@ -6,7 +6,7 @@ using DAL.Model;
 
 namespace BLL.Services;
 
-public class ProviderOneSearchService : IDataConsumer
+public class ProviderOneSearchService : IDataService, IAvailable
 {
 	private readonly IProviderOneService _providerService;
 	private readonly IMapper _mapper;
@@ -23,7 +23,8 @@ public class ProviderOneSearchService : IDataConsumer
 		var providerSearchRequest = _mapper.Map<ProviderOneSearchRequest>(request);
 
 		var requestResult = await _providerService.GetRoutesAsync(providerSearchRequest, cancellationToken);
-		var result = _mapper.Map<SearchResponse>(requestResult); //Надо смаппить из requestResult.Routes[]
+
+		var result = _mapper.Map<SearchResponse>(requestResult);
 
 		return result;
 	}

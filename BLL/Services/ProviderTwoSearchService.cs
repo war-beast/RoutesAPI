@@ -6,19 +6,19 @@ using DAL.Model;
 
 namespace BLL.Services;
 
-public class ProviderTwoSearchService : IDataConsumer
+public class ProviderTwoSearchService : IDataService, IAvailable
 {
 	private readonly IProviderTwoService _providerService;
 	private readonly IMapper _mapper;
 
-	public ProviderTwoSearchService(IProviderTwoService providerService, 
+	public ProviderTwoSearchService(IProviderTwoService providerService,
 		IMapper mapper)
 	{
 		_providerService = providerService;
 		_mapper = mapper;
 	}
 
-    public async Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
+	public async Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
 		var providerSearchRequest = _mapper.Map<ProviderTwoSearchRequest>(request); //Надо смаппить из request
 

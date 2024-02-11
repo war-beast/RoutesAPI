@@ -1,5 +1,4 @@
 ﻿using BLL.Interfaces;
-using BLL.Model;
 using BLL.Services;
 using DAL.Interfaces;
 using DAL.Model.Options;
@@ -15,12 +14,20 @@ public static class Initialization
 
 		services.AddTransient<IProviderOneService, ProviderOneService>();
 		services.AddTransient<IProviderTwoService, ProviderTwoService>();
+		services.AddTransient<ICachedDataService, CachedDataService>();
 
 		#endregion
 
 		#region Bussiness logic layer
 
-		
+		services.AddTransient<IDataService, ProviderOneSearchService>();
+		services.AddTransient<IDataService, ProviderTwoSearchService>();
+		services.AddTransient<IDataService, StoredDataService>();
+		services.AddTransient<IDataProvidersFactory, DataProvidersFactory>();
+		services.AddTransient<IStorageUpdateService, StorageUpdateService>();
+
+		services.AddTransient<IAvailable, ProviderOneSearchService>();
+		services.AddTransient<IAvailable, ProviderTwoSearchService>();
 
 		#endregion
 
