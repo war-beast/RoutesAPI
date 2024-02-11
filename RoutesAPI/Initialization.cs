@@ -20,7 +20,7 @@ public static class Initialization
 
 		#region Bussiness logic layer
 
-		services.AddTransient<ICacheDataService<MemoryCacheKey>, MemoryCacheService>();
+		
 
 		#endregion
 
