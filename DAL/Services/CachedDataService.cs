@@ -26,4 +26,7 @@ public class CachedDataService : ICachedDataService
 
 		await _context.SaveChangesAsync(cancellationToken);
 	}
+
+	public Task<bool> IsAvailable(CancellationToken cancellationToken) =>
+		_context.Database.CanConnectAsync(cancellationToken);
 }

@@ -9,4 +9,6 @@ public interface ICachedDataService
 	IQueryable<RouteInfo> GetAll();
 
 	Task AddRoutes(IReadOnlyCollection<RouteInfo> routes, CancellationToken cancellationToken);
+
+	Task<bool> IsAvailable(CancellationToken cancellationToken);
 }
