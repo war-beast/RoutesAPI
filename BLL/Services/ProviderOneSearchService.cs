@@ -18,13 +18,13 @@ public class ProviderOneSearchService : IDataService, IAvailable
 		_mapper = mapper;
 	}
 
-	public async Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
+	public async Task<Route[]> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
 		var providerSearchRequest = _mapper.Map<ProviderOneSearchRequest>(request);
 
 		var requestResult = await _providerService.GetRoutesAsync(providerSearchRequest, cancellationToken);
 
-		var result = _mapper.Map<SearchResponse>(requestResult);
+		var result = _mapper.Map<Route[]>(requestResult.Routes);
 
 		return result;
 	}

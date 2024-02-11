@@ -4,7 +4,7 @@ namespace BLL.Interfaces;
 
 public interface IDataService
 {
-	Task<Route> GetDataAsync(SearchRequest request, CancellationToken cancellationToken);
+	Task<Route[]> GetDataAsync(SearchRequest request, CancellationToken cancellationToken);
 
 	bool IsCached => false;
 }

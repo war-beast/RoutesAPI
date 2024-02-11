@@ -1,6 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.Comparers;
+using BLL.Interfaces;
 using BLL.Model;
-using DAL.Interfaces;
 
 namespace BLL.Services;
 
@@ -8,18 +8,56 @@ public class SearchService : ISearchService
 {
 	private readonly IDataProvidersFactory _providersFactory;
 	private readonly IStorageUpdateService _storageUpdateService;
+	private readonly IFilterService _filterService;
 
 	public SearchService(IDataProvidersFactory providersFactory, 
-		IStorageUpdateService storageUpdateService)
+		IStorageUpdateService storageUpdateService, 
+		IFilterService filterService)
 	{
 		_providersFactory = providersFactory;
 		_storageUpdateService = storageUpdateService;
+		_filterService = filterService;
 	}
 
-	public Task<SearchResponse> SearchAsync(SearchRequest request, CancellationToken cancellationToken)
+	public async Task<SearchResponse> SearchAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
 		var providers = _providersFactory.GetDataServices(request.Filters?.OnlyCached ?? false);
 
+		//Если нет необходимости убирать дубли маршрутов, то можно не использовать
+		RoutesWithoutIdComparer copmarer = new();
+		IEnumerable<Route> routes = Enumerable.Empty<Route>();
+		foreach (var provider in providers.Where(x => !x.IsCached))
+		{
+			routes = routes.Union(await provider.GetDataAsync(request, cancellationToken), copmarer);
+		}
 
+		var outerProvidersRoutes = routes as Route[] ?? routes.ToArray();
+
+		//По хорошему перед добавлением в БД надо было бы проверить на дублировние новых маршрутов м теми что уже есть в БД, но чтобы не переусложнять, я это делать не буду.
+		await _storageUpdateService.SaveNewRoutes(outerProvidersRoutes, cancellationToken);
+
+		//В общем случае может быть несколько разных кешей, и где-то один и тот же маршрут может появитсья дважды
+		RoutesByIdComparer idComparer = new();
+		foreach (var provider in providers.Where(x => x.IsCached))
+		{
+			routes = routes.Union(await provider.GetDataAsync(request, cancellationToken), idComparer);
+		}
+
+		var resultRouts = request.Filters != null 
+			? _filterService.FilterRoutes(routes.ToArray(), request.Filters)
+			: routes.ToArray();
+
+		var routesTimes = resultRouts.Select(x => (x.DestinationDateTime - x.OriginDateTime).Minutes)
+			.OrderBy(x => x)
+			.ToArray();
+
+		return new SearchResponse
+		{
+			Routes = resultRouts,
+			MaxPrice = resultRouts.Max(x => x.Price),
+			MinPrice = resultRouts.Min(x => x.Price),
+			MinMinutesRoute = routesTimes[0],
+			MaxMinutesRoute = routesTimes[^1]
+		};
 	}
 }

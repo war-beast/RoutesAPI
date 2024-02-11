@@ -18,7 +18,7 @@ public class StoredDataService : IDataService
 		_mapper = mapper;
 	}
 
-	public async Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
+	public async Task<Route[]> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
 		var query = _cachedDataService.GetAll();
 
@@ -27,35 +27,24 @@ public class StoredDataService : IDataService
 		var routes = await _mapper.ProjectTo<Route>(query)
 			.ToArrayAsync(cancellationToken);
 
-		var routesTimes = routes.Select(x => (x.DestinationDateTime - x.OriginDateTime).Minutes)
-			.OrderBy(x => x)
-			.ToArray();
-
-		return new SearchResponse
-		{
-			Routes = routes,
-			MaxPrice = routes.Max(x => x.Price),
-			MinPrice = routes.Min(x => x.Price),
-			MinMinutesRoute = routesTimes[0],
-			MaxMinutesRoute = routesTimes[^1]
-		};
+		return routes;
 	}
 
 	bool IDataService.IsCached => true;
 
-	private static IQueryable<RouteInfo> GetFiltered(IQueryable<RouteInfo> query, SearchFilters filters)
+	private static IQueryable<RouteInfo> GetFiltered(IQueryable<RouteInfo> query, SearchFilters? filters)
 	{
-		if (filters.MinTimeLimit != null)
+		if (filters?.MinTimeLimit != null)
 		{
 			query = query.Where(x => x.TimeLimit >= filters.MinTimeLimit);
 		}
 
-		if (filters.DestinationDateTime != null)
+		if (filters?.DestinationDateTime != null)
 		{
 			query = query.Where(x => x.DestinationDateTime == filters.DestinationDateTime);
 		}
 
-		if (filters.MaxPrice != null)
+		if (filters?.MaxPrice != null)
 		{
 			query = query.Where(x => x.Price <= filters.MaxPrice);
 		}

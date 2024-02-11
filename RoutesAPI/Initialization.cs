@@ -25,6 +25,7 @@ public static class Initialization
 		services.AddTransient<IDataService, StoredDataService>();
 		services.AddTransient<IDataProvidersFactory, DataProvidersFactory>();
 		services.AddTransient<IStorageUpdateService, StorageUpdateService>();
+		services.AddTransient<IFilterService, FilterService>();
 
 		services.AddTransient<IAvailable, ProviderOneSearchService>();
 		services.AddTransient<IAvailable, ProviderTwoSearchService>();
