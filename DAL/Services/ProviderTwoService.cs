@@ -41,10 +41,15 @@ public class ProviderTwoService : ProviderServicesBase, IProviderTwoService
 	{
 		var client = _httpClientFactory.CreateClient();
 
-		var requestResult = await client.GetAsync(PingUrl, cancellationToken);
+		try
+		{
+			var requestResult = await client.GetAsync(PingUrl, cancellationToken);
 
-		return requestResult.IsSuccessStatusCode
-			? true
-			: false;
+			return requestResult.IsSuccessStatusCode;
+		}
+		catch (Exception exc)
+		{
+			return false;
+		}
 	}
 }

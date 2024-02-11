@@ -1,5 +1,7 @@
+using BLL.Services;
 using DAL.Context;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using RoutesAPI;
 using RoutesAPI.Extensions;
@@ -19,7 +21,7 @@ var connectionString = $"Host={builder.Configuration.GetSection("Database:Connec
 builder.Services.InitDatabase(connectionString);
 
 
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks().AddCheck<DataProvidersHealthCheck>("data");
 
 builder.Services.InitCustomServices(builder.Configuration);
 
@@ -38,7 +40,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.MigrateDatabase<AppDataContext>();
+//app.MigrateDatabase<AppDataContext>();
 
 app.UseHttpsRedirection();
 

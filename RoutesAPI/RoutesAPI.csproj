@@ -7,6 +7,7 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <UserSecretsId>2e3ee7a7-8639-4628-8ee7-0a0bdcaa9845</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileRunArguments>-p "7058:443" -p "5291:80"</DockerfileRunArguments>
   </PropertyGroup>
 
   <ItemGroup>

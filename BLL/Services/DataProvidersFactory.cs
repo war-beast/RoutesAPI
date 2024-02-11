@@ -4,9 +4,9 @@ namespace BLL.Services;
 
 public class DataProvidersFactory : IDataProvidersFactory
 {
-	private readonly IDataService[] _services;
+	private readonly IEnumerable<IDataService> _services;
 
-	public DataProvidersFactory(IDataService[] services)
+	public DataProvidersFactory(IEnumerable<IDataService> services)
 	{
 		_services = services;
 	}
