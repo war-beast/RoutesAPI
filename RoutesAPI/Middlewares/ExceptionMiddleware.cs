@@ -10,9 +10,9 @@ namespace RoutesAPI;
 public class ExceptionMiddleware
 {
 	private readonly IHostEnvironment env;
-	private readonly ILogger _logger;
+	private readonly ILogger<ExceptionMiddleware> _logger;
 
-	public ExceptionMiddleware(IHostEnvironment env, ILogger logger)
+	public ExceptionMiddleware(IHostEnvironment env, ILogger<ExceptionMiddleware> logger)
 	{
 		this.env = env;
 		_logger = logger;

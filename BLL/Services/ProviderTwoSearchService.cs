@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using AutoMapper;
+using BLL.Interfaces;
 using BLL.Model;
 using DAL.Interfaces;
 using DAL.Model;
@@ -8,18 +9,21 @@ namespace BLL.Services;
 public class ProviderTwoSearchService : IDataConsumer
 {
 	private readonly IProviderTwoService _providerService;
+	private readonly IMapper _mapper;
 
-	public ProviderTwoSearchService(IProviderTwoService providerService)
-    {
+	public ProviderTwoSearchService(IProviderTwoService providerService, 
+		IMapper mapper)
+	{
 		_providerService = providerService;
+		_mapper = mapper;
 	}
 
     public async Task<SearchResponse> GetDataAsync(SearchRequest request, CancellationToken cancellationToken)
 	{
-		ProviderTwoSearchRequest providerSearchRequest = ; //Надо смаппить из request
+		var providerSearchRequest = _mapper.Map<ProviderTwoSearchRequest>(request); //Надо смаппить из request
 
 		var requestResult = await _providerService.GetRoutesAsync(providerSearchRequest, cancellationToken);
-		SearchResponse result = ; //Надо смаппить из requestResult.Routes[]
+		var result = _mapper.Map<SearchResponse>(requestResult); //Надо смаппить из requestResult.Routes[]
 
 		return result;
 	}

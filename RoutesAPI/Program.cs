@@ -27,7 +27,7 @@ var app = builder.Build();
 
 app.UseExceptionHandler(new ExceptionHandlerOptions
 {
-	ExceptionHandler = new ExceptionMiddleware(app.Services.GetRequiredService<IHostEnvironment>(), app.Services.GetRequiredService<ILogger>()).Invoke
+	ExceptionHandler = new ExceptionMiddleware(app.Services.GetRequiredService<IHostEnvironment>(), app.Services.GetRequiredService<ILogger<ExceptionMiddleware>>()).Invoke
 });
 
 

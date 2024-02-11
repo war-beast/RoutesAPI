@@ -23,7 +23,7 @@ public class ProviderOneSearchService : IDataConsumer
 		var providerSearchRequest = _mapper.Map<ProviderOneSearchRequest>(request);
 
 		var requestResult = await _providerService.GetRoutesAsync(providerSearchRequest, cancellationToken);
-		SearchResponse result = ; //Надо смаппить из requestResult.Routes[]
+		var result = _mapper.Map<SearchResponse>(requestResult); //Надо смаппить из requestResult.Routes[]
 
 		return result;
 	}
