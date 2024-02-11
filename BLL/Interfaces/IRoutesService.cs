@@ -4,5 +4,5 @@ namespace BLL.Interfaces;
 
 public interface IRoutesService
 {
-	Task<Route> GetRoute(Guid id, CancellationToken cancellationToken);
+	Task<Route> GetRouteAsync(Guid id, CancellationToken cancellationToken);
 }

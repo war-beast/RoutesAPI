@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RoutesAPI.Controllers
 {
-	[Route("api/v1")]
+	[Route("api/v1/route")]
 	[ApiController]
 	public class RoutesController : ControllerBase
 	{
@@ -17,7 +17,7 @@ namespace RoutesAPI.Controllers
 		[HttpGet("id:guid")]
 		public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
 		{
-			var route = await _routesService.GetRoute(id, cancellationToken);
+			var route = await _routesService.GetRouteAsync(id, cancellationToken);
 
 			return Ok(route);
 		}

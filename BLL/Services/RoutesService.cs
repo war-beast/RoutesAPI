@@ -17,7 +17,7 @@ public class RoutesService : IRoutesService
 		_mapper = mapper;
 	}
 
-	public async Task<Route> GetRoute(Guid id, CancellationToken cancellationToken)
+	public async Task<Route> GetRouteAsync(Guid id, CancellationToken cancellationToken)
 	{
 		var route = await _cachedDataService.GetById(id, cancellationToken);
 		return _mapper.Map<Route>(route);

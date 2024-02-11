@@ -47,17 +47,19 @@ public class SearchService : ISearchService
 			? _filterService.FilterRoutes(routes.ToArray(), request.Filters)
 			: routes.ToArray();
 
-		var routesTimes = resultRouts.Select(x => (x.DestinationDateTime - x.OriginDateTime).Minutes)
+		var routesTimes = resultRouts.Select(x => (int)(x.DestinationDateTime - x.OriginDateTime).TotalMinutes)
 			.OrderBy(x => x)
 			.ToArray();
+
+		var tt = resultRouts.Select(x => (int)(x.DestinationDateTime - x.OriginDateTime).TotalMinutes).ToArray();
 
 		return new SearchResponse
 		{
 			Routes = resultRouts,
-			MaxPrice = resultRouts.Max(x => x.Price),
-			MinPrice = resultRouts.Min(x => x.Price),
-			MinMinutesRoute = routesTimes[0],
-			MaxMinutesRoute = routesTimes[^1]
+			MaxPrice = resultRouts.Length > 0 ? resultRouts.Max(x => x.Price) : default,
+			MinPrice = resultRouts.Length > 0 ? resultRouts.Min(x => x.Price) : default,
+			MinMinutesRoute = resultRouts.Length > 0 ? routesTimes[0] : default,
+			MaxMinutesRoute = resultRouts.Length > 0 ? routesTimes[^1] : default
 		};
 	}
 }

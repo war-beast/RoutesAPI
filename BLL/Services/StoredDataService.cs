@@ -35,7 +35,7 @@ public class StoredDataService : IDataService
 	{
 		return query.Where(x => x.Origin == request.Origin 
 		                        && x.Destination == request.Destination 
-		                        && x.OriginDateTime == request.OriginDateTime);
+		                        && x.OriginDateTime.Date == request.OriginDateTime.Date);
 	}
 
 	bool IDataService.IsCached => true;
@@ -49,7 +49,7 @@ public class StoredDataService : IDataService
 
 		if (filters?.DestinationDateTime != null)
 		{
-			query = query.Where(x => x.DestinationDateTime == filters.DestinationDateTime);
+			query = query.Where(x => x.DestinationDateTime.Date == filters.DestinationDateTime.Value.Date);
 		}
 
 		if (filters?.MaxPrice != null)

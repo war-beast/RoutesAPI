@@ -31,6 +31,7 @@ public static class Initialization
 		services.AddTransient<IAvailable, ProviderTwoSearchService>();
 
 		services.AddTransient<IRoutesService, RoutesService>();
+		services.AddTransient<ISearchService, SearchService>();
 
 		#endregion
 
