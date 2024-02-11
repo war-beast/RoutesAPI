@@ -3,20 +3,28 @@
 	public class ProviderTwoRoute
 	{
 		// Mandatory
-		// Start point of route
+		/// <summary>
+		/// Start point of route
+		/// </summary>
 		public ProviderTwoPoint Departure { get; set; }
 
 
 		// Mandatory
-		// End point of route
+		/// <summary>
+		/// End point of route
+		/// </summary>
 		public ProviderTwoPoint Arrival { get; set; }
 
 		// Mandatory
-		// Price of route
+		/// <summary>
+		/// Price of route
+		/// </summary>
 		public decimal Price { get; set; }
 
 		// Mandatory
-		// Timelimit. After it expires, route became not actual
+		/// <summary>
+		/// Timelimit. After it expires, route became not actual
+		/// </summary>
 		public DateTime TimeLimit { get; set; }
 	}
 }

@@ -27,19 +27,15 @@ public class ProviderOneMapping : Profile
 			.ForMember(d => d.DestinationDateTime, opt => opt.MapFrom(s => s.DateTo));
 	}
 
-	private static decimal GetMinPrice(IEnumerable<ProviderOneRoute> routes) => routes.MinBy(x => x.Price)?.Price ?? default;
+	private static decimal GetMinPrice(IEnumerable<ProviderOneRoute> routes) => routes.Min(x => x.Price);
 
-	private static decimal GetMaxPrice(IEnumerable<ProviderOneRoute> routes) => routes.MaxBy(x => x.Price)?.Price ?? default;
+	private static decimal GetMaxPrice(IEnumerable<ProviderOneRoute> routes) => routes.Max(x => x.Price);
 
-	private static int GetFastestRoute(IEnumerable<ProviderOneRoute> routes)
-	{
-		return routes.Select(x => (x.DateTo - x.DateFrom).Minutes)
+	private static int GetFastestRoute(IEnumerable<ProviderOneRoute> routes) =>
+		routes.Select(x => (x.DateTo - x.DateFrom).Minutes)
 			.Min();
-	}
 
-	private static int GetLongestRoute(IEnumerable<ProviderOneRoute> routes)
-	{
-		return routes.Select(x => (x.DateTo - x.DateFrom).Minutes)
+	private static int GetLongestRoute(IEnumerable<ProviderOneRoute> routes) =>
+		routes.Select(x => (x.DateTo - x.DateFrom).Minutes)
 			.Max();
-	}
 }
