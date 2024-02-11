@@ -22,12 +22,20 @@ public class StoredDataService : IDataService
 	{
 		var query = _cachedDataService.GetAll();
 
+		query = GetRequested(query, request);
 		query = GetFiltered(query, request.Filters);
 
 		var routes = await _mapper.ProjectTo<Route>(query)
 			.ToArrayAsync(cancellationToken);
 
 		return routes;
+	}
+
+	private static IQueryable<RouteInfo> GetRequested(IQueryable<RouteInfo> query, SearchRequest request)
+	{
+		return query.Where(x => x.Origin == request.Origin 
+		                        && x.Destination == request.Destination 
+		                        && x.OriginDateTime == request.OriginDateTime);
 	}
 
 	bool IDataService.IsCached => true;
