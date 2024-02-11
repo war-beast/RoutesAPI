@@ -1,7 +1,8 @@
-using BLL.Mappings;
+using DAL.Context;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using RoutesAPI;
+using RoutesAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
-builder.Services.AddAutoMapper(typeof(CacheKeyMapping).Assembly);
+builder.Services.AddAutoMapper(typeof(BLL.Interfaces.ISearchService).Assembly);
+
+var connectionString = $"Host={builder.Configuration.GetSection("Database:ConnectionString").Value}";
+builder.Services.InitDatabase(connectionString);
+
 
 builder.Services.AddHealthChecks();
 
@@ -32,6 +37,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.MigrateDatabase<AppDataContext>();
 
 app.UseHttpsRedirection();
 
