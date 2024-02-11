@@ -28,6 +28,7 @@ public class ProviderTwoService : ProviderServicesBase, IProviderTwoService
 	public async Task<ProviderTwoSearchResponse> GetRoutesAsync(ProviderTwoSearchRequest request, CancellationToken cancellationToken)
 	{
 		var client = _httpClientFactory.CreateClient();
+		var defaultResult = new ProviderTwoSearchResponse { Routes = [] };
 
 		try
 		{
@@ -35,19 +36,17 @@ public class ProviderTwoService : ProviderServicesBase, IProviderTwoService
 
 			if (requestResult.IsSuccessStatusCode)
 			{
-				var response = await requestResult.Content.ReadAsStringAsync(cancellationToken);
+				var response = await requestResult.Content.ReadFromJsonAsync<ProviderTwoSearchResponse>(cancellationToken);
 
-				return JsonSerializer.Deserialize<ProviderTwoSearchResponse>(response) ??
-				       throw new InvalidOperationException($"Ошибка при десериализации ответа провайдера: {response}");
+				return response ?? defaultResult;
 			}
-
-			return new ProviderTwoSearchResponse { Routes = [] };
 		}
 		catch (Exception exc)
 		{
 			_logger.LogError(exc, "Ошибка запроса к {host}", DataUrl);
-			return new ProviderTwoSearchResponse { Routes = [] };
 		}
+
+		return defaultResult;
 	}
 
 	public async Task<bool> IsAvailableAsync(CancellationToken cancellationToken)

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Context;
 
-public class AppDataContext : DbContext, IContext
+public class AppDataContext : DbContext
 {
 	public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
 	{

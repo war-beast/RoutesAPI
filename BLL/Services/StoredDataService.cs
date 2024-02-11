@@ -31,14 +31,14 @@ public class StoredDataService : IDataService
 		return routes;
 	}
 
+	bool IDataService.IsCached => true;
+
 	private static IQueryable<RouteInfo> GetRequested(IQueryable<RouteInfo> query, SearchRequest request)
 	{
 		return query.Where(x => x.Origin == request.Origin 
 		                        && x.Destination == request.Destination 
 		                        && x.OriginDateTime.Date == request.OriginDateTime.Date);
 	}
-
-	bool IDataService.IsCached => true;
 
 	private static IQueryable<RouteInfo> GetFiltered(IQueryable<RouteInfo> query, SearchFilters? filters)
 	{

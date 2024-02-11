@@ -28,6 +28,7 @@ public class ProviderOneService : ProviderServicesBase, IProviderOneService
 	public async Task<ProviderOneSearchResponse> GetRoutesAsync(ProviderOneSearchRequest request, CancellationToken cancellationToken)
 	{
 		var client = _httpClientFactory.CreateClient();
+		var defaultResult = new ProviderOneSearchResponse { Routes = [] };
 
 		try
 		{
@@ -35,19 +36,17 @@ public class ProviderOneService : ProviderServicesBase, IProviderOneService
 
 			if (requestResult.IsSuccessStatusCode)
 			{
-				var response = await requestResult.Content.ReadAsStringAsync(cancellationToken);
+				var response = await requestResult.Content.ReadFromJsonAsync<ProviderOneSearchResponse>(cancellationToken);
 
-				return JsonSerializer.Deserialize<ProviderOneSearchResponse>(response) ??
-				       throw new InvalidOperationException($"Ошибка при десериализации ответа провайдера: {response}");
+				return response ?? defaultResult;
 			}
-
-			return new ProviderOneSearchResponse { Routes = [] };
 		}
 		catch (Exception exc)
 		{
 			_logger.LogError(exc, "Ошибка запроса к {host}", DataUrl);
-			return new ProviderOneSearchResponse { Routes = [] };
 		}
+
+		return defaultResult;
 	}
 
 	public async Task<bool> IsAvailableAsync(CancellationToken cancellationToken)
