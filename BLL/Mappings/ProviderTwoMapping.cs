@@ -36,6 +36,6 @@ public class ProviderTwoMapping : Profile
 	private static int GetFastestRoute(IEnumerable<ProviderTwoRoute> routes) => routes.Select(x => (x.Arrival.Date - x.Departure.Date).Minutes)
 		.Min();
 
-	private static int GetLongestRoute(ProviderTwoRoute[] routes) => routes.Select(x => (x.Arrival.Date - x.Departure.Date).Minutes)
+	private static int GetLongestRoute(IEnumerable<ProviderTwoRoute> routes) => routes.Select(x => (x.Arrival.Date - x.Departure.Date).Minutes)
 		.Max();
 }
